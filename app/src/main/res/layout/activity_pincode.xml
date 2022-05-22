@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PINCodeActivity">
+
+    <Button
+        android:id="@+id/outlinedButton1"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="50dp"
+        android:layout_toStartOf="@+id/containedButton5"
+        android:text=""
+        style="?attr/materialButtonOutlinedStyle"
+        />
+
+    <Button
+        android:id="@+id/outlinedButton2"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="-25dp"
+        android:layout_toStartOf="@+id/containedButton5"
+        android:text=""
+        style="?attr/materialButtonOutlinedStyle"
+        />
+
+    <Button
+        android:id="@+id/outlinedButton3"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="-25dp"
+        android:layout_toEndOf="@+id/containedButton5"
+        android:text=""
+        style="?attr/materialButtonOutlinedStyle"
+        />
+
+    <Button
+        android:id="@+id/outlinedButton4"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="50dp"
+        android:layout_toEndOf="@+id/containedButton5"
+        android:text=""
+        style="?attr/materialButtonOutlinedStyle"
+        />
+
+    <Button
+        android:id="@+id/containedButtonDelete"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="470dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/containedButton5"
+        android:onClick="pressButtonDelete"
+        app:icon="@drawable/ic_baseline_delete_outline_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"/>
+
+    <Button
+        android:id="@+id/containedButton0"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="470dp"
+        android:layout_centerHorizontal="true"
+        android:text="0"
+        android:onClick="pressButton0"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButtonCheck"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="470dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/containedButton5"
+        android:onClick="pressButtonCheck"
+        app:icon="@drawable/ic_baseline_check_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"/>
+
+    <Button
+        android:id="@+id/containedButton1"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/containedButton5"
+        android:text="1"
+        android:onClick="pressButton1"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButton2"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="400dp"
+        android:layout_centerHorizontal="true"
+        android:text="2"
+        android:onClick="pressButton2"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButton3"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/containedButton5"
+        android:text="3"
+        android:onClick="pressButton3"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButton4"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="330dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/containedButton5"
+        android:text="4"
+        android:onClick="pressButton4"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButton5"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="330dp"
+        android:text="5"
+        android:onClick="pressButton5"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButton6"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="330dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/containedButton5"
+        android:text="6"
+        android:onClick="pressButton6"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButton7"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/containedButton5"
+        android:text="7"
+        android:onClick="pressButton7"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButton8"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="260dp"
+        android:layout_centerHorizontal="true"
+        android:text="8"
+        android:onClick="pressButton8"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/containedButton9"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/containedButton5"
+        android:text="9"
+        android:onClick="pressButton9"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:onClick="pressButtonCancel"
+        android:layout_marginTop="600dp"
+        android:layout_centerHorizontal="true"
+        tools:ignore="HardcodedText" />
+
+</RelativeLayout>

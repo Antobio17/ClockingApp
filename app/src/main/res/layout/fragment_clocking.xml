@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="50dp"
+    tools:context="com.example.clockingapp.ui.clocking.ClockingFragment">
+
+    <TextView
+        android:id="@+id/text_clocking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/clockingInButton"
+        app:icon="@drawable/ic_baseline_group_add_24"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:text="@string/entrada"
+        android:onClick="onClockingIn"/>
+
+    <Button
+        android:id="@+id/clockingOutButton"
+        app:icon="@drawable/ic_baseline_group_remove_24"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="250dp"
+        android:text="@string/salida"
+        android:onClick="onClockingOut"/>
+</RelativeLayout>

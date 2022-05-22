@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_clocking_in">
+
+    <fragment
+        android:id="@+id/navigation_clocking_in"
+        android:name="com.example.clockingapp.ui.clocking.ClockingFragment"
+        android:label="@string/title_clocking_in"
+        tools:layout="@layout/fragment_clocking" />
+
+    <fragment
+        android:id="@+id/navigation_schedule"
+        android:name="com.example.clockingapp.ui.schedule.ScheduleFragment"
+        android:label="@string/title_schedule"
+        tools:layout="@layout/fragment_schedule" />
+</navigation>

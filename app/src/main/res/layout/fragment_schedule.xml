@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="50dp"
+    android:paddingLeft="50dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    tools:context="com.example.clockingapp.ui.schedule.ScheduleFragment">
+
+    <TextView
+        android:id="@+id/textSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"/>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="50dp"
+        android:stretchColumns="1">
+        <TableRow
+            android:paddingBottom="10dp">
+            <TextView
+                android:text="Trabajador"
+                android:padding="3dip"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:text="Entrada"
+                android:gravity="center"
+                android:padding="3dip"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:text="Salida"
+                android:gravity="right"
+                android:padding="3dip"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+        </TableRow>
+        <TableRow
+            android:paddingBottom="4dp">
+            <TextView
+                android:text="Antonio"
+                android:padding="3dip"/>
+
+            <TextView
+                android:id="@+id/clockingInAntonio"
+                android:text=""
+                android:gravity="center"
+                android:padding="3dip"/>
+
+            <TextView
+                android:id="@+id/clockingOutAntonio"
+                android:text=""
+                android:gravity="right"
+                android:padding="3dip"/>
+
+        </TableRow>
+        <TableRow
+            android:paddingBottom="4dp">
+            <TextView
+                android:text="María"
+                android:padding="3dip"/>
+
+            <TextView
+                android:id="@+id/clockingInMaria"
+                android:text=""
+                android:gravity="center"
+                android:padding="3dip"/>
+
+            <TextView
+                android:id="@+id/clockingOutMaria"
+                android:text=""
+                android:gravity="right"
+                android:padding="3dip"/>
+
+        </TableRow>
+        <TableRow
+            android:paddingBottom="4dp">
+            <TextView
+                android:text="Samuel"
+                android:padding="3dip"/>
+
+            <TextView
+                android:id="@+id/clockingInSamuel"
+                android:text=""
+                android:gravity="center"
+                android:padding="3dip"/>
+
+            <TextView
+                android:id="@+id/clockingOutSamuel"
+                android:text=""
+                android:gravity="right"
+                android:padding="3dip"/>
+
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

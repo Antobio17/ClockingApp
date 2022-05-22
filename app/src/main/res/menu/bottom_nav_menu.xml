@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_clocking_in"
+        android:icon="@drawable/ic_baseline_work_24"
+        android:title="@string/title_clocking_in" />
+
+    <item
+        android:id="@+id/navigation_schedule"
+        android:icon="@drawable/ic_baseline_calendar_month_24"
+        android:title="@string/title_schedule" />
+
+</menu>

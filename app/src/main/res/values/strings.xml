@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ClockingApp</string>
+    <string name="title_clocking_in">Fichar</string>
+    <string name="title_schedule">Horario</string>
+    <string name="entrada">Entrada</string>
+    <string name="salida">Salida</string>
+</resources>
