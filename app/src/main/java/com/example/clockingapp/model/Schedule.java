@@ -1,6 +1,7 @@
 package com.example.clockingapp.model;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -16,16 +17,16 @@ public class Schedule {
     @ColumnInfo(name = "id")
     private Integer id;
 
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "worker_id")
     @NonNull
-    private String worker;
+    private Integer workerID;
 
     @ColumnInfo(name = "checking_in")
     @NonNull
     private String checkingIn;
 
     @ColumnInfo(name = "checking_out")
-    @NonNull
+    @Nullable
     private String checkingOut;
 
     @ColumnInfo(name = "day")
@@ -38,14 +39,14 @@ public class Schedule {
      * Constructor de la clase Routine
      *
      * @param id ID de la horario.
-     * @param worker Nombre del trabajador.
+     * @param workerID ID del trabajador.
      * @param checkingIn Fecha de cuando se registra la entrada.
      * @param checkingOut Fecha de cuando se registra la salida.
      */
-    public Schedule(Integer id, String worker, String checkingIn, String checkingOut, String day)
+    public Schedule(Integer id, Integer workerID, String checkingIn, String checkingOut, String day)
     {
         this.setId(id)
-                .setWorker(worker)
+                .setWorkerID(workerID)
                 .setCheckingIn(checkingIn)
                 .setCheckingOut(checkingOut)
                 .setDay(day);
@@ -64,7 +65,7 @@ public class Schedule {
 
     /**
      * {@inheritDoc}
-     * @return Exercise
+     * @return Schedule
      */
     public Schedule setId(Integer id)
     {
@@ -78,18 +79,18 @@ public class Schedule {
      * @return String
      */
     @NonNull
-    public String getWorker()
+    public Integer getWorkerID()
     {
-        return this.worker;
+        return this.workerID;
     }
 
     /**
      * {@inheritDoc}
-     * @return Exercise
+     * @return Schedule
      */
-    public Schedule setWorker(String worker)
+    public Schedule setWorkerID(Integer workerID)
     {
-        this.worker = worker;
+        this.workerID = workerID;
 
         return this;
     }
@@ -166,9 +167,9 @@ public class Schedule {
     {
         return "CREATE TABLE IF NOT EXISTS schedule ( " +
                 "id INTEGER PRIMARY KEY, " +
-                "worker TEXT NOT NULL," +
+                "worker_id INTEGER NOT NULL," +
                 "checkingIn TEXT NOT NULL," +
-                "checkingOut TEXT NOT NULL," +
+                "checkingOut TEXT NULLABLE," +
                 "day TEXT NOT NULL," +
                 ")";
     }

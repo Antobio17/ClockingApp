@@ -89,7 +89,9 @@ public class PINCodeActivity extends AppCompatActivity {
                     Snackbar.LENGTH_LONG
             ).setAction("Action", null).show();
         } else {
-            setResult(RESULT_OK);
+            int result = pinCode[0] * 1000 + pinCode[1] * 100 + pinCode[2] * 10 + pinCode[3];
+
+            setResult(result);
             this.finish();
         }
     }

@@ -7,12 +7,13 @@ import com.example.clockingapp.model.ScheduleDao;
 import com.example.clockingapp.model.Schedule;
 
 @Database(
-        entities = {Schedule.class},
-        version = 1,
+        entities = {Schedule.class, Worker.class},
+        version = 3,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ScheduleDao scheduleDao();
+    public abstract WorkerDao workerDao();
 }
 
 

@@ -13,15 +13,17 @@ import java.util.List;
 public interface ScheduleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertExercises(Schedule... exercises);
+    public void insertSchedules(Schedule... exercises);
 
     @Update
-    public void updateExercises(Schedule... exercises);
+    public void updateSchedules(Schedule... exercises);
 
     @Delete
-    public void deleteExercises(Schedule... exercises);
+    public void deleteSchedules(Schedule... exercises);
 
     @Query("SELECT * FROM schedule")
     public List<Schedule> findAll();
 
+    @Query("SELECT * FROM schedule ORDER BY id DESC LIMIT 1")
+    public Schedule findLast();
 }

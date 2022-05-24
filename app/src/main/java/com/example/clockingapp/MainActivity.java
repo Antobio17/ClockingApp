@@ -7,6 +7,9 @@ import android.view.View;
 
 import com.example.clockingapp.model.AppDatabase;
 import com.example.clockingapp.model.Schedule;
+import com.example.clockingapp.model.ScheduleDao;
+import com.example.clockingapp.model.Worker;
+import com.example.clockingapp.model.WorkerDao;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -24,8 +27,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.clockingapp.databinding.ActivityMainBinding;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.security.Signature;
-import java.util.Objects;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,6 +53,16 @@ public class MainActivity extends AppCompatActivity {
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL(Schedule.dropTable());
             database.execSQL(Schedule.createTable());
+        }
+    };
+
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL(Schedule.dropTable());
+            database.execSQL(Schedule.createTable());
+            database.execSQL(Worker.dropTable());
+            database.execSQL(Worker.createTable());
         }
     };
 
@@ -73,8 +89,10 @@ public class MainActivity extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "clockingapp")
                 .allowMainThreadQueries()
-                .addMigrations(MIGRATION_1_1)
+                .addMigrations(MIGRATION_2_3)
                 .build();
+
+        this._initBBDD(db);
 
         // Inicialización de Biométrica
         executor = ContextCompat.getMainExecutor(this);
@@ -120,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClockingIn(View view) {
         AUTHENTICATE_ACTION = 0;
-//        Intent intent = new Intent(context, PINCodeActivity.class);
-//        startActivity(intent);
         biometricPrompt.authenticate(promptInfo);
     }
 
@@ -134,7 +150,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK) {
+        WorkerDao workerDao = db.workerDao();
+        ScheduleDao scheduleDao = db.scheduleDao();
+
+        Worker worker = workerDao.findOneByCode(resultCode);
+        if(worker != null) {
+            Schedule schedule = scheduleDao.findLast();
+            Integer id = schedule != null ? schedule.getId() + 1 : 1;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
+            Date date = calendar.getTime();
+            String pattern = "dd-MM-yyyy HH:mm:ss";
+
+            scheduleDao.insertSchedules(new Schedule(
+                    id,
+                    worker.getId(),
+                    (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date),
+                    null,
+                    (new SimpleDateFormat("EEEEE", new Locale("es", "ES"))).format(date)
+            ));
+
+            Schedule sch = scheduleDao.findLast();
             if (AUTHENTICATE_ACTION == 0) {
                 Snackbar.make(
                         binding.getRoot(),
@@ -147,6 +183,23 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.LENGTH_LONG
                 ).setAction("Action", null).show();
             }
+        } else {
+            Snackbar.make(
+                    binding.getRoot(),
+                    "Trabajador no identificado",
+                    Snackbar.LENGTH_LONG
+            ).setAction("Action", null).show();
         }
+    }
+
+    private void _initBBDD(AppDatabase db)
+    {
+        WorkerDao workerDao = db.workerDao();
+
+        workerDao.insertWorkers(
+                new Worker(1, "Antonio", 1997),
+                new Worker(2, "Maria", 704),
+                new Worker(3, "Samuel", 35)
+        );
     }
 }
