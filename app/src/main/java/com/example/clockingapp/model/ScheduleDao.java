@@ -26,4 +26,7 @@ public interface ScheduleDao {
 
     @Query("SELECT * FROM schedule ORDER BY id DESC LIMIT 1")
     public Schedule findLast();
+
+    @Query("SELECT * FROM schedule WHERE worker_id = :workerID AND checking_out is NULL ORDER BY id DESC LIMIT 1")
+    public Schedule findLastCheckingInByWorker(Integer workerID);
 }

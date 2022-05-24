@@ -97,7 +97,7 @@ public class PINCodeActivity extends AppCompatActivity {
     }
 
     public void pressButtonCancel(View view) {
-        setResult(RESULT_CANCELED);
+        setResult(RESULT_OK);
         this.finish();
     }
 

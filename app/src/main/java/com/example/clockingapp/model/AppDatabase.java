@@ -8,7 +8,7 @@ import com.example.clockingapp.model.Schedule;
 
 @Database(
         entities = {Schedule.class, Worker.class},
-        version = 3,
+        version = 4,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {

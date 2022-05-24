@@ -170,7 +170,7 @@ public class Schedule {
                 "worker_id INTEGER NOT NULL," +
                 "checkingIn TEXT NOT NULL," +
                 "checkingOut TEXT NULLABLE," +
-                "day TEXT NOT NULL," +
+                "day TEXT NOT NULL" +
                 ")";
     }
 

@@ -112,7 +112,7 @@ public class Worker {
         return "CREATE TABLE IF NOT EXISTS worker ( " +
                 "id INTEGER PRIMARY KEY, " +
                 "worker TEXT NOT NULL," +
-                "code_value INTEGER NOT NULL," +
+                "code_value INTEGER NOT NULL" +
                 ")";
     }
 

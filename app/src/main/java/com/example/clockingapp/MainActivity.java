@@ -30,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.Executor;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+    static final Migration MIGRATION_4 = new Migration(3, 4) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL(Schedule.dropTable());
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "clockingapp")
                 .allowMainThreadQueries()
-                .addMigrations(MIGRATION_2_3)
+                .addMigrations(MIGRATION_4)
                 .build();
 
         this._initBBDD(db);
@@ -100,6 +101,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
+
+                biometricPrompt.cancelAuthentication();
+
+                Intent intent = new Intent(context, PINCodeActivity.class);
+                int requestCode = 0;
+                startActivityForResult(intent, requestCode);
             }
 
             @Override
@@ -155,35 +162,40 @@ public class MainActivity extends AppCompatActivity {
 
         Worker worker = workerDao.findOneByCode(resultCode);
         if(worker != null) {
-            Schedule schedule = scheduleDao.findLast();
-            Integer id = schedule != null ? schedule.getId() + 1 : 1;
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
             Date date = calendar.getTime();
             String pattern = "dd-MM-yyyy HH:mm:ss";
 
-            scheduleDao.insertSchedules(new Schedule(
-                    id,
-                    worker.getId(),
-                    (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date),
-                    null,
-                    (new SimpleDateFormat("EEEEE", new Locale("es", "ES"))).format(date)
-            ));
-
-            Schedule sch = scheduleDao.findLast();
             if (AUTHENTICATE_ACTION == 0) {
+                Schedule schedule = scheduleDao.findLast();
+                Integer id = schedule != null ? schedule.getId() + 1 : 1;
+
+                scheduleDao.insertSchedules(new Schedule(
+                        id,
+                        worker.getId(),
+                        (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date),
+                        null,
+                        (new SimpleDateFormat("EE", new Locale("es", "ES"))).format(date)
+                ));
+
                 Snackbar.make(
                         binding.getRoot(),
                         "¡Buenos días! Que tengas una buena jornada de trabajo :)",
                         Snackbar.LENGTH_LONG
                 ).setAction("Action", null).show();
             } else if(AUTHENTICATE_ACTION == 1) {
+                Schedule schedule = scheduleDao.findLastCheckingInByWorker(worker.getId());
+
+                schedule.setCheckingOut((new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date));
+                scheduleDao.updateSchedules(schedule);
+
                 Snackbar.make(
                         binding.getRoot(), "¡Hasta mañana!",
                         Snackbar.LENGTH_LONG
                 ).setAction("Action", null).show();
             }
-        } else {
+        } else if (resultCode != RESULT_OK) {
             Snackbar.make(
                     binding.getRoot(),
                     "Trabajador no identificado",
