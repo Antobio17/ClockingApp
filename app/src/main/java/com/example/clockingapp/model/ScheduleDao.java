@@ -24,6 +24,9 @@ public interface ScheduleDao {
     @Query("SELECT * FROM schedule")
     public List<Schedule> findAll();
 
+    @Query("SELECT * FROM schedule WHERE checking_in > :dayStart and checking_in < :dayEnd")
+    public List<Schedule> findAllByDate(String dayStart, String dayEnd);
+
     @Query("SELECT * FROM schedule ORDER BY id DESC LIMIT 1")
     public Schedule findLast();
 

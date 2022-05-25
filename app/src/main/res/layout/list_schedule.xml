@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPadding="10dp">
+
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+            <TextView
+                android:id="@+id/workerName"
+                android:padding="3dip"
+                android:text="Antonio"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/checkingIn"
+                android:gravity="center"
+                android:padding="3dip"
+                android:text="Entrada"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/checkingOut"
+                android:gravity="right"
+                android:padding="3dip"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

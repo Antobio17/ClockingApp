@@ -34,80 +34,35 @@
                 android:text="Trabajador"
                 android:padding="3dip"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:text="Entrada"
                 android:gravity="center"
                 android:padding="3dip"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:text="Salida"
                 android:gravity="right"
                 android:padding="3dip"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
-
+                android:textSize="16sp"
+                tools:ignore="HardcodedText,RtlHardcoded" />
         </TableRow>
-        <TableRow
-            android:paddingBottom="4dp">
-            <TextView
-                android:text="Antonio"
-                android:padding="3dip"/>
 
-            <TextView
-                android:id="@+id/clockingInAntonio"
-                android:text=""
-                android:gravity="center"
-                android:padding="3dip"/>
-
-            <TextView
-                android:id="@+id/clockingOutAntonio"
-                android:text=""
-                android:gravity="right"
-                android:padding="3dip"/>
-
-        </TableRow>
-        <TableRow
-            android:paddingBottom="4dp">
-            <TextView
-                android:text="María"
-                android:padding="3dip"/>
-
-            <TextView
-                android:id="@+id/clockingInMaria"
-                android:text=""
-                android:gravity="center"
-                android:padding="3dip"/>
-
-            <TextView
-                android:id="@+id/clockingOutMaria"
-                android:text=""
-                android:gravity="right"
-                android:padding="3dip"/>
-
-        </TableRow>
-        <TableRow
-            android:paddingBottom="4dp">
-            <TextView
-                android:text="Samuel"
-                android:padding="3dip"/>
-
-            <TextView
-                android:id="@+id/clockingInSamuel"
-                android:text=""
-                android:gravity="center"
-                android:padding="3dip"/>
-
-            <TextView
-                android:id="@+id/clockingOutSamuel"
-                android:text=""
-                android:gravity="right"
-                android:padding="3dip"/>
-
-        </TableRow>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scheduleRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingTop="10dp"
+            android:paddingBottom="30dp"
+            android:layout_marginTop="0dp">
+        </androidx.recyclerview.widget.RecyclerView>
     </TableLayout>
 
 </RelativeLayout>

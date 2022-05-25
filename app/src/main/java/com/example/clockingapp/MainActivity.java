@@ -130,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
                 super.onAuthenticationFailed();
                 biometricPrompt.cancelAuthentication();
 
-                Intent intent = new Intent(context, PINCodeActivity.class);
-                int requestCode = 0;
-                startActivityForResult(intent, requestCode);
+//                Intent intent = new Intent(context, PINCodeActivity.class);
+//                int requestCode = 0;
+//                startActivityForResult(intent, requestCode);
             }
         });
 

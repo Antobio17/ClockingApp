@@ -24,6 +24,9 @@ public interface WorkerDao {
     @Query("SELECT * FROM worker")
     public List<Worker> findAll();
 
+    @Query("SELECT * FROM worker WHERE id = :id")
+    public Worker findByID(Integer id);
+
     @Query("SELECT * FROM worker WHERE code_value = :codeValue")
     public Worker findOneByCode(Integer codeValue);
 
