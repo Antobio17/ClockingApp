@@ -10,9 +10,22 @@
     android:paddingBottom="10dp"
     tools:context="com.example.clockingapp.ui.schedule.ScheduleFragment">
 
+    <Button
+        android:id="@+id/dayLeft"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="60dp"
+        android:layout_toStartOf="@+id/textSchedule"
+        android:onClick="selectDayLeft"
+        app:icon="@drawable/ic_baseline_keyboard_arrow_left_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"/>
+
     <TextView
         android:id="@+id/textSchedule"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -22,6 +35,19 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/dayRight"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="60dp"
+        android:layout_toEndOf="@+id/textSchedule"
+        android:onClick="selectDayRight"
+        app:icon="@drawable/ic_baseline_keyboard_arrow_right_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"/>
 
     <TableLayout
         android:layout_width="fill_parent"

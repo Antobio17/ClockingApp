@@ -36,35 +36,61 @@ public class ScheduleFragment extends Fragment {
     private FragmentScheduleBinding binding;
     private RecyclerView scheduleRecyclerView;
     private List<Schedule> schedules = new ArrayList<>();
-
+    public static Integer countSelectedDay = 0;
+    public static Integer selectedDay = null;
+    private TextView textView;
+    private ScheduleViewModel scheduleViewModel;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ScheduleViewModel scheduleViewModel =
+        scheduleViewModel =
                 new ViewModelProvider(this).get(ScheduleViewModel.class);
 
         binding = FragmentScheduleBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSchedule;
+        textView = binding.textSchedule;
 
-        scheduleRecyclerView = root.findViewById(R.id.scheduleRecyclerView);
+        calculateScheduleDay(root, countSelectedDay, selectedDay);
+
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    public void calculateScheduleDay(View view, Integer countSelectedDay, Integer selectedDay)
+    {
+        scheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView);
 
         // Obtener día de la semana actual
         String weekDay = "";
-        switch (Calendar.DAY_OF_WEEK){
-            case 1: weekDay = "Domingo";
+        if (selectedDay == null) {
+            selectedDay = (Calendar.getInstance()).get(Calendar.DAY_OF_WEEK);
+        }
+        switch (selectedDay) {
+            case Calendar.SUNDAY:
+                weekDay = "Domingo";
                 break;
-            case 2: weekDay = "Lunes";
+            case Calendar.MONDAY:
+                weekDay = "Lunes";
                 break;
-            case 3: weekDay = "Martes";
+            case Calendar.TUESDAY:
+                weekDay = "Martes";
                 break;
-            case 4: weekDay = "Miercoles";
+            case Calendar.WEDNESDAY:
+                weekDay = "Miercoles";
                 break;
-            case 5: weekDay = "Jueves";
+            case Calendar.THURSDAY:
+                weekDay = "Jueves";
                 break;
-            case 6: weekDay = "Viernes";
+            case Calendar.FRIDAY:
+                weekDay = "Viernes";
                 break;
-            case 7: weekDay = "Sábado";
+            case Calendar.SATURDAY:
+                weekDay = "Sábado";
                 break;
         }
         textView.setText(weekDay);
@@ -75,23 +101,15 @@ public class ScheduleFragment extends Fragment {
         calendar.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
         Date date = calendar.getTime();
         String pattern = "dd-MM-yyyy",
-            dayStart = (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date) + " 00:00:00",
-            dayEnd = (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date) + " 23:59:59";
+                dayStart = (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date) + " 00:00:00",
+                dayEnd = (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date) + " 23:59:59";
 
         schedules = MainActivity.db.scheduleDao().findAllByDate(dayStart, dayEnd);
 
         ScheduleAdapter scheduleAdapter =
-                new ScheduleAdapter(this.schedules, root.getContext());
+                new ScheduleAdapter(this.schedules, view.getContext());
         scheduleRecyclerView.setHasFixedSize(true);
-        scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         scheduleRecyclerView.setAdapter(scheduleAdapter);
-
-        return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }
