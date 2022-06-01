@@ -33,6 +33,9 @@ public interface ScheduleDao {
     @Query("SELECT * FROM schedule WHERE worker_id = :workerID AND checking_out is NULL ORDER BY id DESC LIMIT 1")
     public Schedule findLastCheckingInByWorker(Integer workerID);
 
+    @Query("SELECT * FROM schedule WHERE worker_id = :workerID ORDER BY id DESC LIMIT 1")
+    public Schedule findLastChecking(Integer workerID);
+
     @Query("SELECT * FROM schedule WHERE worker_id = :workerID AND checking_in > :dayStart and checking_in < :dayEnd is NOT NULL ORDER BY id DESC LIMIT 1")
     public Schedule findCheckingInAtDayByWorker(Integer workerID, String dayStart, String dayEnd);
 }

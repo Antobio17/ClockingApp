@@ -30,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.Executor;
@@ -111,17 +112,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                if (AUTHENTICATE_ACTION == 0) {
-                    Snackbar.make(
-                            binding.getRoot(), "¡Buenos días! Que tengas una buena jornada de trabajo :)",
-                            Snackbar.LENGTH_LONG
-                    ).setAction("Action", null).show();
-                } else if (AUTHENTICATE_ACTION == 1) {
-                    Snackbar.make(
-                            binding.getRoot(), "¡Hasta mañana!",
-                            Snackbar.LENGTH_LONG
-                    ).setAction("Action", null).show();
-                }
+
+                WorkerDao workerDao = db.workerDao();
+
+                Worker worker = workerDao.findOneByCode(1997);
+                _registerClocking(worker);
             }
 
             @Override
@@ -161,63 +156,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         WorkerDao workerDao = db.workerDao();
-        ScheduleDao scheduleDao = db.scheduleDao();
 
         Worker worker = workerDao.findOneByCode(resultCode);
         if (worker != null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
-            Date date = calendar.getTime();
-            String pattern = "dd-MM-yyyy HH:mm:ss";
-
-            if (AUTHENTICATE_ACTION == 0) {
-                Schedule schedule = scheduleDao.findLast();
-                Integer id = schedule != null ? schedule.getId() + 1 : 1;
-
-                String pattern2 = "dd-MM-yyyy",
-                        dayStart = (new SimpleDateFormat(pattern2, new Locale("es", "ES"))).format(date) + " 00:00:00",
-                        dayEnd = (new SimpleDateFormat(pattern2, new Locale("es", "ES"))).format(date) + " 23:59:59";
-                schedule = scheduleDao.findCheckingInAtDayByWorker(worker.getId(), dayStart, dayEnd);
-
-                if (schedule == null) {
-                    scheduleDao.insertSchedules(new Schedule(
-                            id,
-                            worker.getId(),
-                            (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date),
-                            null,
-                            (new SimpleDateFormat("EE", new Locale("es", "ES"))).format(date)
-                    ));
-
-                    Snackbar.make(
-                            binding.getRoot(),
-                            "¡Buenos días! Que tengas una buena jornada de trabajo :)",
-                            Snackbar.LENGTH_LONG
-                    ).setAction("Action", null).show();
-                } else {
-                    Snackbar.make(
-                            binding.getRoot(),
-                            "No puedes registrar dos entradas en un mismo día.",
-                            Snackbar.LENGTH_LONG
-                    ).setAction("Action", null).show();
-                }
-            } else if (AUTHENTICATE_ACTION == 1) {
-                Schedule schedule = scheduleDao.findLastCheckingInByWorker(worker.getId());
-
-                if (schedule != null) {
-                    schedule.setCheckingOut((new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date));
-                    scheduleDao.updateSchedules(schedule);
-
-                    Snackbar.make(
-                            binding.getRoot(), "¡Hasta mañana!",
-                            Snackbar.LENGTH_LONG
-                    ).setAction("Action", null).show();
-                } else {
-                    Snackbar.make(
-                            binding.getRoot(), "No se puede registrar la salida.",
-                            Snackbar.LENGTH_LONG
-                    ).setAction("Action", null).show();
-                }
-            }
+            _registerClocking(worker);
         } else if (resultCode != RESULT_OK) {
             Snackbar.make(
                     binding.getRoot(),
@@ -227,13 +169,71 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     */
+    private void _registerClocking(Worker worker) {
+        ScheduleDao scheduleDao = db.scheduleDao();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
+        Date date = calendar.getTime();
+        String pattern = "dd-MM-yyyy HH:mm:ss";
+
+        if (AUTHENTICATE_ACTION == 0) {
+            Schedule schedule = scheduleDao.findLast();
+            Integer id = schedule != null ? schedule.getId() + 1 : 1;
+
+            String pattern2 = "dd-MM-yyyy",
+                    dayStart = (new SimpleDateFormat(pattern2, new Locale("es", "ES"))).format(date) + " 00:00:00",
+                    dayEnd = (new SimpleDateFormat(pattern2, new Locale("es", "ES"))).format(date) + " 23:59:59";
+            schedule = scheduleDao.findLastChecking((Integer)worker.getId());
+
+            if (schedule == null || !schedule.getCheckingIn().split("\\s+")[0].equals(dayStart.split("\\s+")[0])) {
+                scheduleDao.insertSchedules(new Schedule(
+                        id,
+                        worker.getId(),
+                        (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date),
+                        null,
+                        (new SimpleDateFormat("EE", new Locale("es", "ES"))).format(date)
+                ));
+
+                Snackbar.make(
+                        binding.getRoot(),
+                        "¡Buenos días! Que tengas una buena jornada de trabajo :)",
+                        Snackbar.LENGTH_LONG
+                ).setAction("Action", null).show();
+            } else {
+                Snackbar.make(
+                        binding.getRoot(),
+                        "No puedes registrar dos entradas en un mismo día.",
+                        Snackbar.LENGTH_LONG
+                ).setAction("Action", null).show();
+            }
+        } else if (AUTHENTICATE_ACTION == 1) {
+            Schedule schedule = scheduleDao.findLastCheckingInByWorker(worker.getId());
+
+            if (schedule != null) {
+                schedule.setCheckingOut((new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date));
+                scheduleDao.updateSchedules(schedule);
+
+                Snackbar.make(
+                        binding.getRoot(), "¡Hasta mañana!",
+                        Snackbar.LENGTH_LONG
+                ).setAction("Action", null).show();
+            } else {
+                Snackbar.make(
+                        binding.getRoot(), "No se puede registrar la salida.",
+                        Snackbar.LENGTH_LONG
+                ).setAction("Action", null).show();
+            }
+        }
+    }
+
     private void _initBBDD(AppDatabase db) {
         WorkerDao workerDao = db.workerDao();
 
         workerDao.insertWorkers(
-                new Worker(1, "Antonio", 1997),
-                new Worker(2, "Maria", 704),
-                new Worker(3, "Samuel", 35)
+                new Worker(1, "Antonio", 1997)
         );
     }
 }
