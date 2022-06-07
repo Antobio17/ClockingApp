@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             String pattern2 = "dd-MM-yyyy",
                     dayStart = (new SimpleDateFormat(pattern2, new Locale("es", "ES"))).format(date) + " 00:00:00",
                     dayEnd = (new SimpleDateFormat(pattern2, new Locale("es", "ES"))).format(date) + " 23:59:59";
-            schedule = scheduleDao.findLastChecking((Integer)worker.getId());
+            schedule = scheduleDao.findLastChecking((Integer) worker.getId());
 
             if (schedule == null || !schedule.getCheckingIn().split("\\s+")[0].equals(dayStart.split("\\s+")[0])) {
                 scheduleDao.insertSchedules(new Schedule(
@@ -197,11 +197,19 @@ public class MainActivity extends AppCompatActivity {
                         (new SimpleDateFormat("EE", new Locale("es", "ES"))).format(date)
                 ));
 
-                Snackbar.make(
-                        binding.getRoot(),
-                        "¡Buenos días! Que tengas una buena jornada de trabajo :)",
-                        Snackbar.LENGTH_LONG
-                ).setAction("Action", null).show();
+                Intent intent = new Intent(context, QRActivity.class);
+                intent.putExtra(
+                        "code",
+                        worker.getWorker() + " entra el " +
+                                (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date)
+                );
+                intent.putExtra(
+                        "message",
+                        "¡Buenos días! Que tengas una buena jornada de trabajo :). No te " +
+                                "olvides de registrar el código QR en el teléfono de la entrada"
+                );
+                startActivity(intent);
+
             } else {
                 Snackbar.make(
                         binding.getRoot(),
@@ -216,10 +224,18 @@ public class MainActivity extends AppCompatActivity {
                 schedule.setCheckingOut((new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date));
                 scheduleDao.updateSchedules(schedule);
 
-                Snackbar.make(
-                        binding.getRoot(), "¡Hasta mañana!",
-                        Snackbar.LENGTH_LONG
-                ).setAction("Action", null).show();
+                Intent intent = new Intent(context, QRActivity.class);
+                intent.putExtra(
+                        "code",
+                        worker.getWorker() + " sale el " +
+                                (new SimpleDateFormat(pattern, new Locale("es", "ES"))).format(date)
+                );
+                intent.putExtra(
+                        "message",
+                        "¡Hasta mañana!. No te " +
+                                "olvides de registrar el código QR en el teléfono de la entrada"
+                );
+                startActivity(intent);
             } else {
                 Snackbar.make(
                         binding.getRoot(), "No se puede registrar la salida.",
