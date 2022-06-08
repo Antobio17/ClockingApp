@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> list = new ArrayList<>();
     View view;
     private ActivityMainBinding binding;
+    IntentIntegrator integrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycleView);
 
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_FRONT);
-        integrator.setPrompt("Escanee el QR");
-        integrator.initiateScan();
-
+        integrator = new IntentIntegrator(this);
     }
 
     @Override
@@ -48,13 +45,21 @@ public class MainActivity extends AppCompatActivity {
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-        String contents = result.getContents();
+        if (resultCode != 0) {
+            String contents = result.getContents();
+            list.add(contents);
 
-        list.add(contents);
+            ClockingAdapter adapter =
+                    new ClockingAdapter(this.list, view.getContext());
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            recyclerView.setAdapter(adapter);
+        }
+    }
 
-        ClockingAdapter adapter =
-                new ClockingAdapter(this.list, view.getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(adapter);
+    public void openScanner(View view)
+    {
+        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_FRONT);
+        integrator.setPrompt("Escanee el QR");
+        integrator.initiateScan();
     }
 }
